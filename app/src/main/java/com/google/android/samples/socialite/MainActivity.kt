@@ -16,22 +16,30 @@
 
 package com.google.android.samples.socialite
 
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowInsetsController
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.LaunchedEffect
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.google.android.samples.socialite.ui.Main
 import com.google.android.samples.socialite.ui.ShortcutParams
+import com.google.android.samples.socialite.widget.SociaLiteAppWidgetReceiver
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -43,6 +51,32 @@ class MainActivity : ComponentActivity() {
             Main(
                 shortcutParams = extractShortcutParams(intent),
             )
+            LaunchedEffect(Unit) {
+                delay(4000)
+                requestToPinWidget()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun requestToPinWidget(){
+        Log.d("TAG", "requestToPinWidget: ")
+        val appWidgetManager = AppWidgetManager.getInstance(this)
+        val myProvider = ComponentName(this, SociaLiteAppWidgetReceiver::class.java)
+
+        if (appWidgetManager.isRequestPinAppWidgetSupported) {
+            Log.d("TAG", "requestToPinWidget: Supporte")
+            // Create the PendingIntent object only if your app needs to be notified
+            // when the user chooses to pin the widget. Note that if the pinning
+            // operation fails, your app isn't notified. This callback receives the ID
+            // of the newly pinned widget (EXTRA_APPWIDGET_ID).
+            val successCallback = PendingIntent.getBroadcast(
+                /* context = */ this,
+                /* requestCode = */ 0,
+                /* intent = */ Intent(this, SociaLiteAppWidgetReceiver::class.java),
+            /* flags = */ PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE)
+
+            appWidgetManager.requestPinAppWidget(myProvider, null, successCallback)
         }
     }
 
