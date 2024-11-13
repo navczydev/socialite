@@ -34,6 +34,8 @@ import androidx.glance.layout.fillMaxSize
 import com.google.android.samples.socialite.MainActivity
 import com.google.android.samples.socialite.R
 import com.google.android.samples.socialite.widget.SociaLiteAppWidgetConfigActivity
+import androidx.glance.preview.ExperimentalGlancePreviewApi
+import androidx.glance.preview.Preview
 
 @Composable
 fun ZeroState(widgetId: Int) {
@@ -58,5 +60,14 @@ fun ZeroState(widgetId: Int) {
                 ),
             )
         }
+    }
+}
+
+@OptIn(ExperimentalGlancePreviewApi::class)
+@Preview(heightDp = 200, widthDp = 300)
+@Composable
+private fun PrevZeroState() {
+    GlanceTheme{
+        ZeroState(widgetId = 0)
     }
 }
