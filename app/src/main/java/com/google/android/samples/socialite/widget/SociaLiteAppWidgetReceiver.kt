@@ -16,11 +16,39 @@
 
 package com.google.android.samples.socialite.widget
 
+import android.appwidget.AppWidgetManager
+import android.content.Context
+import android.util.Log
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import com.google.android.samples.socialite.widget.model.WidgetModelRepository
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+private const val TAG = "SociaLiteAppWidgetRec"
 
 @AndroidEntryPoint
 class SociaLiteAppWidgetReceiver : GlanceAppWidgetReceiver() {
-    override val glanceAppWidget: GlanceAppWidget = TODO("Create instance of SociaLiteAppWidget")
+    override val glanceAppWidget: GlanceAppWidget = SociaLiteAppWidget()
+    @Inject
+    lateinit var repository: WidgetModelRepository
+
+    override fun onDeleted(context: Context, appWidgetIds: IntArray) {
+        super.onDeleted(context, appWidgetIds)
+        repository.cleanupWidgetModels(context)
+    }
+
+    override fun onEnabled(context: Context?) {
+        super.onEnabled(context)
+        Log.d(TAG, "onEnabled: Called when the first instance of the widget is created")
+    }
+
+    override fun onUpdate(
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
+    ) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
+        Log.d(TAG, "onUpdate: ")
+    }
 }
