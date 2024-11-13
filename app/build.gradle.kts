@@ -30,11 +30,13 @@ kotlin {
 android {
     namespace = "com.google.android.samples.socialite"
     compileSdk = 34
+//    compileSdkPreview = "VanillaIceCream"
 
     defaultConfig {
         applicationId = "com.google.android.samples.socialite"
         minSdk = 21
         targetSdk = 34
+//        targetSdkPreview = "VanillaIceCream"
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -140,4 +142,8 @@ dependencies {
 
     implementation(libs.coil)
     implementation(libs.coil.compose)
+    //glance preview
+    debugImplementation(libs.androidx.glance.preview)
+    debugImplementation(libs.androidx.glance.appwidget.preview)
+
 }
