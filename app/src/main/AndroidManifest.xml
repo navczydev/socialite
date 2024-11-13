@@ -147,6 +147,28 @@
             <meta-data
                 android:name="photopicker_activity:0:required" android:value="" />
         </service>
+        <receiver android:name=".widget.SociaLiteAppWidgetReceiver"
+            android:exported="true"
+            android:label="Favourite contact">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/socialite_widget_info"
+                />
+        </receiver>
+        <receiver android:name=".widget.CounterAppWidgetReceiver"
+            android:exported="true"
+            android:label="Counter ++">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/socialite_widget_info"
+                />
+        </receiver>
 
     </application>
 
