@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ksp)
 }
 
 kotlin {
     jvmToolchain(17)
+    compilerOptions {
+        freeCompilerArgs = listOf("-Xcontext-receivers")
+    }
 }
 
 android {
@@ -49,19 +53,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs = listOf("-Xcontext-receivers")
-    }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     packaging {
         resources {
@@ -87,7 +80,6 @@ dependencies {
     val composeBom = platform(libs.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
-    implementation(libs.compose.foundation)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.graphics)
     implementation(libs.compose.ui.text.google.fonts)
@@ -101,6 +93,7 @@ dependencies {
 
     implementation(libs.activity.compose)
     implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.accompanist.painter)
     implementation(libs.accompanist.permissions)
@@ -108,7 +101,6 @@ dependencies {
     implementation(libs.graphics.shapes)
 
     implementation(libs.lifecycle.ktx)
-    implementation(libs.lifecycle.compose)
     implementation(libs.lifecycle.runtime.compose)
 
     ksp(libs.room.compiler)

@@ -44,7 +44,6 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
-
             // setSystemBarAppearance can be removed after calling enableEdgeToEdge()
             setSystemBarAppearance(isSystemInDarkTheme())
 
@@ -89,16 +88,17 @@ class MainActivity : ComponentActivity() {
         return ShortcutParams(shortcutId, text)
     }
 
-    private fun setSystemBarAppearance(isSystemInDarkTheme : Boolean) {
+    private fun setSystemBarAppearance(isSystemInDarkTheme: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (isSystemInDarkTheme) {
                 window?.insetsController?.setSystemBarsAppearance(
-                    0, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    0,
+                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                 )
             } else {
                 window?.insetsController?.setSystemBarsAppearance(
                     WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
                 )
             }
         }

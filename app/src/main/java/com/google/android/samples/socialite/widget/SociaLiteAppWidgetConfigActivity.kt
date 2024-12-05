@@ -45,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import androidx.glance.appwidget.updateAll
 import com.google.android.samples.socialite.di.AppCoroutineScope
 import com.google.android.samples.socialite.model.Contact
